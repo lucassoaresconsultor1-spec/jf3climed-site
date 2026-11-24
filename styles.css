@@ -1335,3 +1335,41 @@ main > section.section:first-child { padding-top: 132px !important; }
     padding-bottom: 40px;
   }
 }
+
+/* O ícone do card sobre a foto não herda o posicionamento das etiquetas de foto (.photo span) */
+.photo-float .icon { position: static; padding: 0; }
+
+/* Segunda linha de especialidades: só no celular */
+.marquee-reverse { display: none; }
+
+@media (max-width: 760px) {
+  /* duas linhas de especialidades, em sentidos opostos */
+  .wave-content { padding-bottom: 150px; }
+  .marquee { bottom: 66px; }
+  .marquee-reverse { display: block; bottom: 22px; }
+  .marquee-reverse .marquee-track { animation-direction: reverse; animation-duration: 30s; }
+  .marquee-reverse .marquee-track span { color: rgba(255, 255, 255, 0.55); }
+
+  /* grade 2/2/2: tratamentos e "O que nos guia" */
+  .m-grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px; }
+  .m-grid2 .tcard { padding: 6px 6px 14px; border-radius: 18px; }
+  .m-grid2 .tcard .media { aspect-ratio: 1 / 1; border-radius: 14px; }
+  .m-grid2 .tcard .badge { top: 8px; left: 8px; padding: 3px 9px; font-size: 0.7rem; }
+  .m-grid2 .tcard h3 { margin: 12px 6px 4px; font-size: 0.95rem; line-height: 1.2; }
+  .m-grid2 .tcard p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0 6px;
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+  .m-grid2 .tcard .more { margin-left: 6px; padding-top: 10px; font-size: 0.8rem; }
+  .dark-cards.m-grid2 > div { padding: 16px 14px; border-radius: 16px; }
+  .dark-cards.m-grid2 .icon { width: 36px; height: 36px; }
+  .dark-cards.m-grid2 .icon svg { width: 17px; height: 17px; }
+  .dark-cards.m-grid2 .num { font-size: 0.72rem; }
+  .dark-cards.m-grid2 h3 { margin-top: 18px; font-size: 0.95rem; line-height: 1.2; }
+  .dark-cards.m-grid2 p { font-size: 0.78rem; line-height: 1.45; }
+}

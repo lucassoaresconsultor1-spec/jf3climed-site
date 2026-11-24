@@ -868,6 +868,39 @@ void main() {
     new ResizeObserver(() => { layout(); render(); }).observe(stage);
   }
 
+  /* ------------------------------------------------------------------
+   * Carrossel automático para listas de deslizar (data-autoplay="ms").
+   * Só age quando a lista está em modo carrossel (celular; avaliações até
+   * o tablet). Passa um card por vez e volta ao início no fim. Para por
+   * 5s quando a pessoa toca/arrasta, e fora da tela ou com a aba oculta.
+   * ------------------------------------------------------------------ */
+  function autoCarousel(el) {
+    if (REDUCE) return;
+    const interval = Number(el.dataset.autoplay) || 2600;
+    const mq = window.matchMedia(el.classList.contains('quotes') ? '(max-width: 960px)' : '(max-width: 760px)');
+    let timer = 0, inView = false, pausedUntil = 0;
+    const step = () => {
+      if (Date.now() < pausedUntil || el.scrollWidth <= el.clientWidth + 4) return;
+      const first = el.firstElementChild;
+      const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
+      const next = el.scrollLeft + first.getBoundingClientRect().width + gap;
+      const max = el.scrollWidth - el.clientWidth;
+      // chega até o fim (último card inteiro) antes de voltar ao início
+      el.scrollTo({ left: el.scrollLeft >= max - 4 ? 0 : Math.min(next, max), behavior: 'smooth' });
+    };
+    const schedule = () => {
+      clearInterval(timer);
+      timer = 0;
+      if (inView && mq.matches && !document.hidden) timer = setInterval(step, interval);
+    };
+    const pause = () => { pausedUntil = Date.now() + 5000; };
+    ['pointerdown', 'touchstart', 'wheel'].forEach((ev) => el.addEventListener(ev, pause, { passive: true }));
+    onVisible(el, (v) => { inView = v; schedule(); }, 0.4);
+    mq.addEventListener('change', schedule);
+    document.addEventListener('visibilitychange', schedule);
+  }
+
+  document.querySelectorAll('[data-autoplay]').forEach(autoCarousel);
   document.querySelectorAll('.shine-card').forEach(shineCard);
   document.querySelectorAll('.team-grid[data-coverflow]').forEach(coverflow);
   document.querySelectorAll('canvas[data-particles]').forEach(particleLogo);
