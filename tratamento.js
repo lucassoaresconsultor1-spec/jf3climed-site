@@ -3,7 +3,7 @@ const TRATAMENTOS = [
   {
     slug: 'clinica',
     nome: 'Clínica médica',
-    img: 'assets/trat-clinica.jpg',
+    img: 'assets/trat-clinica.webp',
     resumo: 'Consultas para diagnóstico, acompanhamento de doenças crônicas, check-ups, consulta popular e prevenção.',
     desc: 'Consultas de rotina, check-ups, prevenção e acompanhamento contínuo, com orientação clara para cada etapa do seu cuidado.',
     intro: 'Seu primeiro passo para uma saúde melhor. Oferecemos consultas de rotina, exames preventivos, acompanhamento de doenças crônicas e consulta popular para as suas necessidades do dia a dia.',
@@ -14,7 +14,7 @@ const TRATAMENTOS = [
   {
     slug: 'biomedicina',
     nome: 'Biomedicina estética',
-    img: 'assets/trat-biomedicina.jpg',
+    img: 'assets/trat-biomedicina.webp',
     resumo: 'Tratamentos estéticos personalizados, elaborados de acordo com seus objetivos, conforto e necessidades.',
     desc: 'Tratamentos estéticos personalizados, pensados de acordo com seus objetivos, conforto e necessidades individuais.',
     intro: 'Cuidar da aparência também é cuidar de si. Oferecemos tratamentos estéticos personalizados, com avaliação prévia e acompanhamento em cada etapa.',
@@ -25,7 +25,7 @@ const TRATAMENTOS = [
   {
     slug: 'fisioterapia',
     nome: 'Fisioterapia',
-    img: 'assets/trat-fisio.jpg',
+    img: 'assets/trat-fisio.webp',
     resumo: 'Reabilitação de lesões, dores musculares e articulares, pós-operatório e melhora da mobilidade.',
     desc: 'Reabilitação de lesões, alívio de dores e recuperação da mobilidade, com plano de tratamento adaptado a cada paciente.',
     intro: 'Recupere movimento e qualidade de vida. A fisioterapia atua na reabilitação de lesões, dores musculares e articulares, pós-operatório e melhora da mobilidade.',
@@ -36,7 +36,7 @@ const TRATAMENTOS = [
   {
     slug: 'nutricao',
     nome: 'Nutrição',
-    img: 'assets/trat-nutricao.jpg',
+    img: 'assets/trat-nutricao.webp',
     resumo: 'Planejamento alimentar individualizado para saúde, bem-estar, controle de peso e performance.',
     desc: 'Planejamento alimentar individualizado para saúde, bem-estar, controle de peso e performance.',
     intro: 'Alimentação que cabe na sua rotina. Planejamento alimentar individualizado para saúde, bem-estar, controle de peso e performance, respeitando suas preferências.',
@@ -47,7 +47,7 @@ const TRATAMENTOS = [
   {
     slug: 'saude-mental',
     nome: 'Saúde mental',
-    img: 'assets/trat-saude-mental.jpg',
+    img: 'assets/trat-saude-mental.webp',
     resumo: 'Cuidados na área da saúde mental, com acolhimento e orientação individualizada.',
     desc: 'Cuidados na área da saúde mental, com acolhimento, escuta atenta e orientação individualizada.',
     intro: 'Cuidar da mente também é cuidar da saúde. Oferecemos atendimento na área da saúde mental com acolhimento, escuta atenta e orientação individualizada.',
@@ -58,7 +58,7 @@ const TRATAMENTOS = [
   {
     slug: 'pediatria',
     nome: 'Pediatria',
-    img: 'assets/trat-pediatria.jpg',
+    img: 'assets/trat-pediatria.webp',
     resumo: 'Atendimento médico delicado e atencioso para crianças, com foco no desenvolvimento saudável.',
     desc: 'Atendimento médico delicado e atencioso para crianças, com foco no desenvolvimento saudável e orientação para as famílias.',
     intro: 'Cuidado atento desde os primeiros anos. Acompanhamos o crescimento e o desenvolvimento das crianças, com orientação clara para as famílias.',
@@ -78,7 +78,8 @@ function renderTratamento() {
   const index = Math.max(0, TRATAMENTOS.findIndex((t) => t.slug === slug)); // slug desconhecido: mostra o primeiro
   const t = TRATAMENTOS[index];
 
-  document.title = `${t.nome} | JF3 Clínica Médica`;
+  document.title = `${t.nome} em Guapimirim | JF3 Clínica Médica`;
+  document.querySelector('meta[name="description"]')?.setAttribute('content', `${t.desc} JF3 Clínica Médica, Guapimirim - RJ.`);
   const img = document.getElementById('t-img');
   img.src = t.img;
   img.alt = '';
@@ -90,7 +91,7 @@ function renderTratamento() {
   const outros = [1, 2, 3].map((n) => TRATAMENTOS[(index + n) % TRATAMENTOS.length]);
   document.getElementById('t-outros').innerHTML = outros.map((o) => `
     <article class="tcard">
-      <div class="media"><img src="${o.img}" alt=""></div>
+      <div class="media"><img src="${o.img}" alt="${o.nome}" loading="lazy" decoding="async"></div>
       <h3>${o.nome}</h3>
       <p>${o.resumo}</p>
       <a href="tratamento.html#${o.slug}" class="more">Saiba mais</a>

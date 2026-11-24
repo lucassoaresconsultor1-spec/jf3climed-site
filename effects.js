@@ -3,6 +3,10 @@
 (function () {
   const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const SMALL = window.matchMedia('(max-width: 760px)').matches;
+  // Celular fraco ou economia de dados: efeitos pesados (WebGL e partículas animadas) ficam desligados.
+  // deviceMemory só existe no Chrome/Android; no iPhone fica indefinido e os efeitos continuam.
+  const LOW_POWER = !!(navigator.connection && navigator.connection.saveData) ||
+    (SMALL && typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4);
 
   // Chama cb(true/false) quando o elemento entra/sai da tela
   function onVisible(el, cb, threshold = 0) {
@@ -67,7 +71,7 @@
           });
         }
       }
-      if (REDUCE) {
+      if (REDUCE || LOW_POWER) {
         state = 'formed';
         k = 1;
         particles.forEach((p) => { p.dx = p.hx; p.dy = p.hy; });
@@ -183,13 +187,13 @@
       step(now);
       draw();
     }
-    function start() { if (!raf && visible && !REDUCE && particles.length) raf = requestAnimationFrame(frame); }
+    function start() { if (!raf && visible && !REDUCE && !LOW_POWER && particles.length) raf = requestAnimationFrame(frame); }
     function stop() { cancelAnimationFrame(raf); raf = 0; }
 
     onVisible(canvas, (v) => {
       visible = v;
       if (v) { start(); setTimeout(() => visible && assemble(), 300); }
-      else { stop(); if (particles.length && !REDUCE) scatter(); }
+      else { stop(); if (particles.length && !REDUCE && !LOW_POWER) scatter(); }
     }, 0.25);
 
     function pointer(e) {
@@ -299,6 +303,7 @@ void main() {
   }
 
   function waveField(canvas) {
+    if (LOW_POWER) return;
     const host = canvas.parentElement;
     const gl = canvas.getContext('webgl', { alpha: true, antialias: false, premultipliedAlpha: true, depth: false });
     if (!gl) return; // sem WebGL: fica o fundo em gradiente da faixa
@@ -584,6 +589,7 @@ void main() {
 }`;
 
   function shineDots(canvas, opts) {
+    if (LOW_POWER) return;
     const gl = canvas.getContext('webgl', { alpha: true, antialias: false });
     if (!gl) return;
     gl.disable(gl.DEPTH_TEST);
@@ -723,7 +729,7 @@ void main() {
     root.innerHTML = `
       <div class="cf-stage" tabindex="0" role="group" aria-roledescription="carrossel" aria-label="Equipe da JF3. Arraste ou use as setas para navegar.">
         <div class="cf-track">${slides.map((s, i) => `
-          <div class="cf-slide" data-i="${i}"><img src="${s.src}" alt="${i < total ? s.alt : ''}" draggable="false"><span class="cf-dim"></span></div>`).join('')}
+          <div class="cf-slide" data-i="${i}"><img src="${s.src}" alt="${i < total ? s.alt : ''}" draggable="false" loading="lazy" decoding="async"><span class="cf-dim"></span></div>`).join('')}
         </div>
       </div>
       <div class="cf-bottom">
