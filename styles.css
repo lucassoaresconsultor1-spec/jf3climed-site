@@ -1393,3 +1393,16 @@ main > section.section:first-child { padding-top: 132px !important; }
     padding: calc(96px + env(safe-area-inset-top, 0px)) 20px 48px;
   }
 }
+
+/* Celular: cards de valores (Sobre nós) na grade 2/2/2 e dicas (Contato) empilhadas e compactas */
+@media (max-width: 760px) {
+  .m-grid2 .card { padding: 16px 14px; border-radius: 18px; }
+  .m-grid2 .card .icon { width: 38px; height: 38px; }
+  .m-grid2 .card .icon svg { width: 17px; height: 17px; }
+  .m-grid2 .card .num { top: 18px; right: 14px; font-size: 0.72rem; }
+  .m-grid2 .card h3 { margin-top: 18px; font-size: 0.95rem; line-height: 1.2; }
+  .m-grid2 .card p { font-size: 0.78rem; line-height: 1.45; }
+  .tips { gap: 10px; }
+  .tips > div { padding: 18px; }
+  .tips h3 { margin-top: 14px; }
+}
