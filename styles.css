@@ -1313,13 +1313,16 @@ main > section.section:first-child { padding-top: 132px !important; }
    "proximity" encaixa sem prender: seções mais longas que a tela rolam livremente.
    Teto de 1000px: evita alturas gigantes se a página for exibida num quadro esticado. */
 @media (max-width: 760px) {
-  html { scroll-snap-type: y proximity; scroll-padding-top: 0; }
+  html { scroll-snap-type: y mandatory; scroll-padding-top: 0; }
   .hero, .wave-band, main > section, .site-footer { scroll-snap-align: start; }
   .site-footer { scroll-snap-align: end; }
 
-  .hero, .wave-band, main > section.section {
+  /* 1ª tela: altura com a barra do navegador aberta (svh), para caber inteira ao abrir.
+     Demais: altura com a barra recolhida (lvh), que é o tamanho real da tela durante a rolagem. */
+  .hero { min-height: min(100vh, 1000px); min-height: min(100svh, 1000px); }
+  .wave-band, main > section.section {
     min-height: min(100vh, 1000px);
-    min-height: min(100svh, 1000px);
+    min-height: min(100lvh, 1000px);
   }
   .hero { justify-content: center; padding-top: calc(96px + env(safe-area-inset-top, 0px)); padding-bottom: 24px; }
   .wave-band { justify-content: center; }
@@ -1388,7 +1391,7 @@ main > section.section:first-child { padding-top: 132px !important; }
     justify-content: center;
     width: 100%;
     min-height: min(100vh, 1000px);
-    min-height: min(100svh, 1000px);
+    min-height: min(100lvh, 1000px);
     border-radius: 0;
     padding: calc(96px + env(safe-area-inset-top, 0px)) 20px 48px;
   }
