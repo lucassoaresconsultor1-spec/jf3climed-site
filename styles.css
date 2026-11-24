@@ -1460,6 +1460,7 @@ main > section.section:first-child { padding-top: 132px !important; }
 
 /* Desktop: na seção "Confiança", título e lista alinhados pelo topo (sem vazio acima do título) */
 @media (min-width: 961px) {
-  .section-head.head-top { align-items: start; }
-  .section-head.head-top h2 { margin-bottom: 0; }
+  .section-head.head-top { align-items: center; }
+  .section-head.head-top p:not(.eyebrow) { max-width: 34em; }
+  .section-head.head-top .checks { margin-top: 0; }
 }
