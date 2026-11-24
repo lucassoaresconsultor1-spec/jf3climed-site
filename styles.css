@@ -1373,3 +1373,23 @@ main > section.section:first-child { padding-top: 132px !important; }
   .dark-cards.m-grid2 h3 { margin-top: 18px; font-size: 0.95rem; line-height: 1.2; }
   .dark-cards.m-grid2 p { font-size: 0.78rem; line-height: 1.45; }
 }
+
+/* Celular: blocos escuros em tela cheia, de ponta a ponta (sem margem branca nem cantos) */
+@media (max-width: 760px) {
+  main > section.section:has(> .band) {
+    display: block;
+    width: 100%;
+    padding: 0 !important;
+    background: var(--dark);
+  }
+  main > section.section:has(> .band) > .band {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: min(100vh, 1000px);
+    min-height: min(100svh, 1000px);
+    border-radius: 0;
+    padding: calc(96px + env(safe-area-inset-top, 0px)) 20px 48px;
+  }
+}
