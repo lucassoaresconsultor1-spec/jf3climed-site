@@ -1376,13 +1376,13 @@ main > section.section:first-child { padding-top: 132px !important; }
 
 /* Celular: blocos escuros em tela cheia, de ponta a ponta (sem margem branca nem cantos) */
 @media (max-width: 760px) {
-  main > section.section:has(> .band) {
+  main > section.section.has-band {
     display: block;
     width: 100%;
     padding: 0 !important;
     background: var(--dark);
   }
-  main > section.section:has(> .band) > .band {
+  main > section.section.has-band > .band {
     display: flex;
     flex-direction: column;
     justify-content: center;
